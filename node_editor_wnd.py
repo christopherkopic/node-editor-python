@@ -3,6 +3,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 from node_scene import Scene
+from node_node import Node
 from node_graphics_view import QCKGraphicsView
 
 class NodeEditorWnd(QWidget):
@@ -20,16 +21,19 @@ class NodeEditorWnd(QWidget):
 
         #create graphics scene
         self.scene = Scene()
-        self.grScene = self.scene.grScene
+        # self.grScene = self.scene.grScene
+
+        self.node = Node(self.scene, "General Kenodi")
+        self.node = Node(self.scene, "Hello There")
 
         #create graphics view
-        self.view = QCKGraphicsView(self.grScene, self)
+        self.view = QCKGraphicsView(self.scene.grScene, self)
         self.layout.addWidget(self.view)
 
         self.setWindowTitle("Node Editor")
         self.show()
 
-        self.addDebugContent()
+        # self.addDebugContent()
 
     def addDebugContent(self):
         greenBrush = QBrush(Qt.green)
