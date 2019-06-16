@@ -28,6 +28,8 @@ class QCKGraphicsView(QGraphicsView):
     def mousePressEvent(self, event):
         if event.button() == Qt.MiddleButton:
             self.middleMouseButtonPress(event)
+        elif event.button() == Qt.LeftButton and event.modifiers() & Qt.AltModifier:
+            self.middleMouseButtonPress(event)
         elif event.button() == Qt.LeftButton:
             self.leftMouseButtonPress(event)
         elif event.button() == Qt.RightButton:
@@ -37,6 +39,8 @@ class QCKGraphicsView(QGraphicsView):
 
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.MiddleButton:
+            self.middleMouseButtonRelease(event)
+        elif event.button() == Qt.LeftButton and event.modifiers() & Qt.AltModifier:
             self.middleMouseButtonRelease(event)
         elif event.button() == Qt.LeftButton:
             self.leftMouseButtonRelease(event)
