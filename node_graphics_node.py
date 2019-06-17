@@ -39,8 +39,8 @@ class QCKGraphicsNode(QGraphicsItem):
         return QRectF(
             0,
             0,
-            2 * self.edge_size + self.width,
-            2 * self.edge_size + self.height
+            self.width,
+            self.height
         ).normalized()
 
     def initUI(self):

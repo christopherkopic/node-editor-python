@@ -10,6 +10,8 @@ class Node():
         self.content = QCKNodeContentWidget()
         self.grNode = QCKGraphicsNode(self)
 
+        self.socket_spacing = 20;
+
         self.scene.addNode(self)
         self.scene.grScene.addItem(self.grNode)
 
@@ -17,7 +19,7 @@ class Node():
         self.outputs = []
         counter = 0
         for item in inputs:
-            socket = Socket(node=self, index=counter, position=LEFT_TOP)
+            socket = Socket(node=self, index=counter, position=LEFT_BOTTOM)
             counter += 1
             self.inputs.append(socket)
         counter = 0
@@ -28,6 +30,9 @@ class Node():
 
     def getSocketPosition(self, index, position):
         x = 0 if position in (LEFT_TOP, LEFT_BOTTOM) else self.grNode.width
-        y = index * 20
+        if position in (LEFT_BOTTOM, RIGHT_BOTTOM):
+            y = self.grNode.height - self.grNode._padding - self.grNode.edge_size - index * self.socket_spacing
+        else:
+            y = self.grNode.title_height + self.grNode._padding + self.grNode.edge_size + index * self.socket_spacing
 
         return x, y
