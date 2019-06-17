@@ -23,12 +23,14 @@ class QCKGraphicsNode(QGraphicsItem):
         self._brush_title = QBrush(QColor("#FF313131"))
         self._brush_background = QBrush(QColor("#E3212121"))
 
+        #init Title
         self.initTitle()
         self.title = self.node.title
 
         # init sockets
 
         # init content
+        self.initContent()
 
         self.initUI()
 
@@ -59,6 +61,16 @@ class QCKGraphicsNode(QGraphicsItem):
     def title(self, value):
         self._title = value
         self.title_item.setPlainText(value)
+
+    def initContent(self):
+        self.grContent = QGraphicsProxyWidget(self)
+        self.content.setGeometry(
+            self.edge_size,
+            self.title_height + self.edge_size,
+            self.width - 2*self.edge_size,
+            self.height - 2*self.edge_size - self.title_height
+        )
+        self.grContent.setWidget(self.content)
 
     def paint(self, painter, QStyleOptionGraphicsItem, widget=None):
         # title
