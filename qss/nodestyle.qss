@@ -1,0 +1,2 @@
+QCKNodeContentWidget { background: transparent }
+QCKNodeContentWidget QLabel { color: lightgrey }
