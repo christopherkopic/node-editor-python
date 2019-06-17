@@ -3,8 +3,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 class QCKGraphicsNode(QGraphicsItem):
-    def __init__(self, node, title="Node Graphics Item", parent=None):
+    def __init__(self, node, parent=None):
         super().__init__(parent)
+        self.node = node
+        self.content = self.node.content
 
         self._title_color = Qt.white
         self._title_font = QFont("Ubuntu", 10)
@@ -22,7 +24,11 @@ class QCKGraphicsNode(QGraphicsItem):
         self._brush_background = QBrush(QColor("#E3212121"))
 
         self.initTitle()
-        self.title = title
+        self.title = self.node.title
+
+        # init sockets
+
+        # init content
 
         self.initUI()
 
