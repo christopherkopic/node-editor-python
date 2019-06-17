@@ -28,6 +28,7 @@ class QCKGraphicsNode(QGraphicsItem):
         self.title = self.node.title
 
         # init sockets
+        self.initSockets()
 
         # init content
         self.initContent()
@@ -61,6 +62,9 @@ class QCKGraphicsNode(QGraphicsItem):
     def title(self, value):
         self._title = value
         self.title_item.setPlainText(value)
+
+    def initSockets(self):
+        pass
 
     def initContent(self):
         self.grContent = QGraphicsProxyWidget(self)
