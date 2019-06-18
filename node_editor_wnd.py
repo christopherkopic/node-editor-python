@@ -46,6 +46,7 @@ class NodeEditorWnd(QWidget):
         self.node3.setPoa(350, -250)
 
         edge1 = Edge(self.scene, self.node1.outputs[0], self.node2.inputs[0])
+        edge2 = Edge(self.scene, self.node2.outputs[0], self.node3.inputs[0], type=2)
 
     def addDebugContent(self):
         greenBrush = QBrush(Qt.green)
