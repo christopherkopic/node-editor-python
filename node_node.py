@@ -28,6 +28,12 @@ class Node():
             counter += 1
             self.outputs.append(socket)
 
+    @property
+    def pos(self):
+        return self.grNode.pos()
+    def setPoa(self, x, y):
+        self.grNode.setPos(x,y)
+
     def getSocketPosition(self, index, position):
         x = 0 if position in (LEFT_TOP, LEFT_BOTTOM) else self.grNode.width
         if position in (LEFT_BOTTOM, RIGHT_BOTTOM):

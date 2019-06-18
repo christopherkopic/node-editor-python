@@ -4,7 +4,7 @@ from PyQt5.QtCore import *
 
 from node_scene import Scene
 from node_node import Node
-from node_socket import Socket
+from node_edge import Edge
 from node_graphics_view import QCKGraphicsView
 
 class NodeEditorWnd(QWidget):
@@ -27,8 +27,7 @@ class NodeEditorWnd(QWidget):
         self.scene = Scene()
         # self.grScene = self.scene.grScene
 
-        self.node = Node(self.scene, "General Kenodi", inputs=[1,1,1], outputs=[2])
-        #self.node = Node(self.scene, "Hello There")
+        self.addNodes()
 
         #create graphics view
         self.view = QCKGraphicsView(self.scene.grScene, self)
@@ -38,6 +37,15 @@ class NodeEditorWnd(QWidget):
         self.show()
 
         # self.addDebugContent()
+
+    def addNodes(self):
+        self.node1 = Node(self.scene, "General Kenodi", inputs=[1,1,1], outputs=[2])
+        self.node2 = Node(self.scene, "General Kenodi", inputs=[1], outputs=[2,2,2])
+        self.node3 = Node(self.scene, "General Kenodi", inputs=[1,1], outputs=[2,2])
+        self.node1.setPoa(-350, -250)
+        self.node3.setPoa(350, -250)
+
+        edge1 = Edge(self.scene, self.node1.outputs[0], self.node2.inputs[0])
 
     def addDebugContent(self):
         greenBrush = QBrush(Qt.green)
