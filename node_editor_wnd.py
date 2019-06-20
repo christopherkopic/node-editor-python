@@ -39,9 +39,9 @@ class NodeEditorWnd(QWidget):
         # self.addDebugContent()
 
     def addNodes(self):
-        self.node1 = Node(self.scene, "General Kenodi", inputs=[1,1,1], outputs=[2])
-        self.node2 = Node(self.scene, "General Kenodi", inputs=[1], outputs=[2,2,2])
-        self.node3 = Node(self.scene, "General Kenodi", inputs=[1,1], outputs=[2,2])
+        self.node1 = Node(self.scene, "General Kenodi", inputs=[1,2,3], outputs=[2])
+        self.node2 = Node(self.scene, "General Kenodi", inputs=[1], outputs=[3,2,1])
+        self.node3 = Node(self.scene, "General Kenodi", inputs=[1,2], outputs=[3,2])
         self.node1.setPoa(-350, -250)
         self.node3.setPoa(350, -250)
 
