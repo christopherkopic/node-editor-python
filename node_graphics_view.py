@@ -25,10 +25,20 @@ class QCKGraphicsView(QGraphicsView):
 
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
 
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Alt:
+            self.altKeyPress()
+        else:
+            super().keyPressEvent(event)
+
+    def keyReleaseEvent(self, event):
+        if event.key() == Qt.Key_Alt:
+            self.altKeyRelease()
+        else:
+            super().keyReleaseEvent(event)
+
     def mousePressEvent(self, event):
         if event.button() == Qt.MiddleButton:
-            self.middleMouseButtonPress(event)
-        elif event.button() == Qt.LeftButton and event.modifiers() & Qt.AltModifier:
             self.middleMouseButtonPress(event)
         elif event.button() == Qt.LeftButton:
             self.leftMouseButtonPress(event)
@@ -40,14 +50,18 @@ class QCKGraphicsView(QGraphicsView):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.MiddleButton:
             self.middleMouseButtonRelease(event)
-        elif event.button() == Qt.LeftButton and event.modifiers() & Qt.AltModifier:
-            self.middleMouseButtonRelease(event)
         elif event.button() == Qt.LeftButton:
             self.leftMouseButtonRelease(event)
         elif event.button() == Qt.RightButton:
             self.rightMouseButtonRelease(event)
         else:
             super().mouseReleaseEvent(event)
+
+    def altKeyPress(self):
+        self.setDragMode(QGraphicsView.ScrollHandDrag)
+
+    def altKeyRelease(self):
+        self.setDragMode(QGraphicsView.NoDrag)
 
     def middleMouseButtonPress(self, event):
         releaseEvent = QMouseEvent(QEvent.MouseButtonRelease, event.localPos(), event.screenPos(), Qt.LeftButton, Qt.NoButton, event.modifiers())
