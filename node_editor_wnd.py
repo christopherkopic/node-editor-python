@@ -4,7 +4,7 @@ from PyQt5.QtCore import *
 
 from node_scene import Scene
 from node_node import Node
-from node_edge import Edge
+from node_edge import *
 from node_graphics_view import QCKGraphicsView
 
 class NodeEditorWnd(QWidget):
@@ -39,14 +39,14 @@ class NodeEditorWnd(QWidget):
         # self.addDebugContent()
 
     def addNodes(self):
-        self.node1 = Node(self.scene, "General Kenodi", inputs=[1,1,1], outputs=[2])
-        self.node2 = Node(self.scene, "General Kenodi", inputs=[1], outputs=[2,2,2])
-        self.node3 = Node(self.scene, "General Kenodi", inputs=[1,1], outputs=[2,2])
+        self.node1 = Node(self.scene, "General Kenodi", inputs=[1,2,3], outputs=[2])
+        self.node2 = Node(self.scene, "General Kenodi", inputs=[1], outputs=[3,2,1])
+        self.node3 = Node(self.scene, "General Kenodi", inputs=[1,2], outputs=[3,2])
         self.node1.setPoa(-350, -250)
         self.node3.setPoa(350, -250)
 
-        edge1 = Edge(self.scene, self.node1.outputs[0], self.node2.inputs[0])
-        edge2 = Edge(self.scene, self.node2.outputs[2], self.node3.inputs[1], type=2)
+        edge1 = Edge(self.scene, self.node1.outputs[0], self.node2.inputs[0], edge_type=EDGE_TYPE_BEZIER)
+        edge2 = Edge(self.scene, self.node2.outputs[2], self.node3.inputs[1], edge_type=EDGE_TYPE_BEZIER)
 
     def addDebugContent(self):
         greenBrush = QBrush(Qt.green)
