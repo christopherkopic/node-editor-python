@@ -35,6 +35,10 @@ class QCKGraphicsNode(QGraphicsItem):
 
         self.initUI()
 
+    def mouseMoveEvent(self, event):
+        super().mouseMoveEvent(event)
+        self.node.updateConnectedEdges()        
+
     def boundingRect(self):
         return QRectF(
             0,
