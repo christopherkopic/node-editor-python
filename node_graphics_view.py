@@ -2,6 +2,11 @@ from PyQt5.QtWidgets import QGraphicsView
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
+from node_graphics_socket import QCKGraphicsSocket
+
+MODE_NOOP = 1
+MODE_EDGE_DRAG = 2
+
 class QCKGraphicsView(QGraphicsView):
     def __init__(self, grScene, parent=None):
         super().__init__(parent)
@@ -10,11 +15,15 @@ class QCKGraphicsView(QGraphicsView):
         self.initUI()
         self.setScene(grScene)
 
+        self.mode = MODE_NOOP
+
         self.zoomInFactor = 1.1
         self.zoomClamp = True
         self.zoom = 10
         self.zoomStep = 1
         self.zoomRange = [-20,20]
+
+        self.edgeDragStartThreshhold = 10
 
     def initUI(self):
         self.setRenderHints(QPainter.Antialiasing | QPainter.HighQualityAntialiasing | QPainter.TextAntialiasing | QPainter.SmoothPixmapTransform)
@@ -76,16 +85,60 @@ class QCKGraphicsView(QGraphicsView):
         self.setDragMode(QGraphicsView.NoDrag)
 
     def leftMouseButtonPress(self, event):
-        return super().mousePressEvent(event)
+        item = self.getItemAtClick(event)
+
+        self.last_lmb_click_scene_pos = self.mapToScene(event.pos())
+
+        if type(item) is QCKGraphicsSocket:
+            if self.mode is MODE_NOOP:
+                self.mode = MODE_EDGE_DRAG
+                self.edgeDragStart(item)
+                return
+
+        if self.mode is MODE_EDGE_DRAG:
+            success = self.edgeDragEnd(item)
+            if success: return
+
+        super().mousePressEvent(event)
 
     def leftMouseButtonRelease(self, event):
-        return super().mouseReleaseEvent(event)
+        item = self.getItemAtClick(event)
+
+        if self.mode is MODE_EDGE_DRAG:
+            new_lmb_release_scene_pos = self.mapToScene(event.pos())
+            dist = new_lmb_release_scene_pos - self.last_lmb_click_scene_pos
+
+            if (dist.x()*dist.x() + dist.y()*dist.y()) > self.edgeDragStartThreshhold*self.edgeDragStartThreshhold:
+                success = self.edgeDragEnd(item)
+                if success: return
+
+        super().mouseReleaseEvent(event)
 
     def rightMouseButtonPress(self, event):
-        return super().mousePressEvent(event)
+        super().mousePressEvent(event)
 
     def rightMouseButtonRelease(self, event):
-        return super().mouseReleaseEvent(event)
+        super().mouseReleaseEvent(event)
+
+    def getItemAtClick(self, event):
+        pos = event.pos()
+        obj = self.itemAt(pos)
+        return obj
+
+    def edgeDragStart(self, item):
+        print("start dragging edge")
+        print(" Assign start socket")
+
+    def edgeDragEnd(self, item):
+        """returns True to skip rest of code"""
+        self.mode = MODE_NOOP
+        print("End dragging Edge")
+
+        if type(item) is QCKGraphicsSocket:
+            print(" Assign end socket")
+            return True
+
+        return False
 
     def wheelEvent(self, event):
         #calculate zoom factor
